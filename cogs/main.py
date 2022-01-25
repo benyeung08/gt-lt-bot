@@ -1,8 +1,9 @@
 import discord
+from datetime import datetime,timezone,timedelta
 from discord.ext import commands
 
 
-class Main(commands.Cog):
+class Main(commands.Cog, description="雜項"):
     def __init__(self, bot):
         self.bot = bot
         
@@ -26,6 +27,16 @@ class Main(commands.Cog):
         """頭像"""
         userAvatarUrl = member.avatar_url
         await ctx.send(userAvatarUrl)
+
+    @commands.command()
+    async def time(self,ctx):
+      """報時"""
+      dt1 = datetime.utcnow().replace(tzinfo=timezone.utc)
+      dt2 = dt1.astimezone(timezone(timedelta(hours=8))) # 轉換時區 -> 東八區
+      embed=discord.Embed(title="現在時間", color=0xffffff)
+      embed.add_field(name="UTC", value=dt1, inline=False)
+      embed.add_field(name="TW", value=dt2, inline=False)
+      await ctx.send(embed=embed)
 
     @commands.command()
     async def link(self,ctx):

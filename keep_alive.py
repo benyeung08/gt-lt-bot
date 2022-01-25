@@ -4,12 +4,16 @@ app = Flask('')
 
 @app.route('/')
 def home():
-   return "READY"
+    return render_template("home.html")
 def run():
     app.run(host="0.0.0.0", port=8080)
 def keep_alive():
     server = Thread(target=run)
     server.start()
+
+@app.route("/home")
+def redirect_home():
+   return redirect('/')
 
 @app.route('/invite')
 def invite():

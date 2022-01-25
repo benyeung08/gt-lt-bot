@@ -1,5 +1,4 @@
 from discord.ext import commands
-from replit import db
 import discord
 import asyncio
 import youtube_dl
@@ -126,6 +125,7 @@ class Music(commands.Cog):
             state.playlist = []
             state.now_playing = None
             await ctx.send("⏹️")
+            
         else:
             await ctx.send("不在語音頻道")
 

@@ -12,13 +12,13 @@ class Event(commands.Cog):
     if message.author == self.bot.user:
       return
       
-    if message.content == 'hi':
-      tmp=["hi","hihi","嗨","嗨嗨"]
-      await message.channel.send(tmp[random.randint(0,3)])
+    if message.content == 'hi' or message.content == 'hello':
+      tmp=["hi","hihi","嗨","嗨嗨","hello","hello there"]
+      await message.channel.send(random.choice(tmp))
 
     if message.content == '安安':
       tmp=["安安阿","安安","你好","你好!"]
-      await message.channel.send(tmp[random.randint(0,3)])
+      await message.channel.send(random.choice(tmp))
   @commands.Cog.listener(name='on_command')
   async def print(self, ctx):
     server = ctx.guild.name

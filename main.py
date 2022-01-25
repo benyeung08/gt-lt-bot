@@ -8,7 +8,7 @@ from pretty_help import PrettyHelp
 
 owners = [881312396784840744, 778193161322627102, 7788274635871092777]
 activity = discord.Activity(type=discord.ActivityType.playing, name="…什麼東西")
-bot = commands.Bot(command_prefix="><", activity=activity, owner_ids = set(owners), intents=Intents.default())
+bot = commands.Bot(command_prefix="><", activity=activity, owner_ids = set(owners), intents=Intents.all())
 bot.help_command = PrettyHelp(color=0xffffff)
 slash = SlashCommand(bot, sync_commands=True)
 
@@ -71,7 +71,7 @@ async def bug(ctx, desc=None, rep=None):
     embed = discord.Embed(title='BUG回報', color=0x00ff00)
     embed.add_field(name='描述', value=description, inline=False)
     embed.add_field(name='回報者:', value=user, inline=True)
-    adminBug = bot.get_channel(908854588294197328)
+    adminBug = bot.get_channel(934325021571154021)
     await adminBug.send(embed=embed)
     await ctx.author.send('OK!')
     # Add 3 reaction (different emojis) here
