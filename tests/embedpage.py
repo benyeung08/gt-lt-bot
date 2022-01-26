@@ -9,7 +9,7 @@ page3 = discord.Embed(title="Bot Help 3", description="Page 3", colour=0xffffff)
 
 pages = [page1, page2, page3]
 
-class tests(commands.Cog, description="tests"):
+class embedpage(commands.Cog, description="tests"):
     def __init__(self, bot):
         self.bot = bot
     @commands.command()
@@ -54,4 +54,4 @@ class tests(commands.Cog, description="tests"):
                 await msg.edit(embed=pages[current])
 
 def setup(bot):
-  bot.add_cog(tests(bot))
+  bot.add_cog(embedpage(bot))

@@ -127,7 +127,7 @@ class Ticket(commands.Cog):
             def check(message):
                 return message.author == ctx.author and message.channel == ctx.channel and message.content.lower() == "close"
             try:
-                em = discord.Embed(title="Closing ticket", description="Are you sure you want to close this ticket? Reply with 'close' if you are sure.", color=0x00a8ff)                  
+                em = discord.Embed(title="", description="Are you sure you want to close this ticket? Reply with 'close' if you are sure.", color=0x00a8ff)                  
                 await ctx.send(embed=em)
                 await self.bot.wait_for('message', check=check, timeout=60)
                 messages = await ctx.channel.history(limit=None, oldest_first=True).flatten()
@@ -148,7 +148,7 @@ class Ticket(commands.Cog):
                 for user in ctx.channel.members:
                     if not user.bot:
                         member : discord.Member = ctx.guild.get_member(user.id)
-                        await Ticket.SendLog(member, f"Closed Ticked: Id {ticket_name}", 0xF42069, file=fileObject)   
+                        await Ticket.SendLog(member, f"已關閉: Id {ticket_name}", 0xF42069, file=fileObject)   
                                          
 
             except:

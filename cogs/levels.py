@@ -32,7 +32,7 @@ class Levelsys(commands.Cog, description="等級系統"):
 
       #checking if the bot has not sent the message
       if not message.author.bot:
-        with open("levels.json", "r") as f:
+        with open("datas/levels.json", "r") as f:
           data = json.load(f)
         
         #checking if the user's data is already there in the file or not
@@ -46,7 +46,7 @@ class Levelsys(commands.Cog, description="等級系統"):
 
           data[str(message.author.id)]['xp']=increased_xp
 
-          with open("levels.json", "w") as f:
+          with open("datas/levels.json", "w") as f:
             json.dump(data, f)
 
           if new_level > lvl:
@@ -55,7 +55,7 @@ class Levelsys(commands.Cog, description="等級系統"):
             data[str(message.author.id)]['level']=new_level
             data[str(message.author.id)]['xp']=0
 
-            with open("levels.json", "w") as f:
+            with open("datas/levels.json", "w") as f:
               json.dump(data, f)
             
             for i in range(len(level)):
@@ -70,14 +70,14 @@ class Levelsys(commands.Cog, description="等級系統"):
           data[str(message.author.id)]['xp'] = 0
           data[str(message.author.id)]['level'] = 1
 
-          with open("levels.json", "w") as f:
+          with open("datas/levels.json", "w") as f:
             json.dump(data, f)
 
   @commands.command(name="rank")
   async def rank(self, ctx: commands.Context, user: Optional[discord.Member]):
     userr = user or ctx.author
 
-    with open("levels.json", "r") as f:
+    with open("datas/levels.json", "r") as f:
       data = json.load(f)
 
     try:
