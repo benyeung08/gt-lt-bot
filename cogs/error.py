@@ -5,7 +5,13 @@ from discord.ext import commands
 class Error(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
-
+  @commands.Cog.listener()
+  async def on_error(ctx, event, *args, **kwargs):
+    """Error handler for all events."""
+    s = traceback.format_exc()
+    content = f'Ignoring exception in {event}\n{s}'
+    print(content, file=sys.stderr)
+    await ctx.send(f"Error錯誤:\n{content}")
   @commands.Cog.listener()
   async def on_command_error(self, ctx, error):
         # if command has local error handler, return
@@ -16,7 +22,7 @@ class Error(commands.Cog):
         error = getattr(error, 'original', error)
 
         if isinstance(error, commands.CommandNotFound):
-            await ctx.send("沒這指令啦!")
+            await ctx.send("沒這指令啦!(CommandNotFound)")
             return
 
         if isinstance(error, commands.BotMissingPermissions):
@@ -25,16 +31,16 @@ class Error(commands.Cog):
                 fmt = '{}, and {}'.format("**, **".join(missing[:-1]), missing[-1])
             else:
                 fmt = ' and '.join(missing)
-            _message = 'I need the **{}** permission(s) to run this command.'.format(fmt)
+            _message = '我需要 **{}** 的權限.(BotMissingPermissions)'.format(fmt)
             await ctx.send(_message)
             return
 
         if isinstance(error, commands.DisabledCommand):
-            await ctx.send('This command has been disabled.')
+            await ctx.send('指令已停用(DisabledCommand)')
             return
 
         if isinstance(error, commands.CommandOnCooldown):
-            await ctx.send("This command is on cooldown, please retry in {}s.".format(math.ceil(error.retry_after)))
+            await ctx.send("This command is on cooldown, please retry in {}s.(CommandOnCooldown)".format(math.ceil(error.retry_after)))
             return
 
         if isinstance(error, commands.MissingPermissions):

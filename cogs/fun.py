@@ -12,6 +12,7 @@ class Fun(commands.Cog, description="好玩的東西"):
         aliases=['8b'],
     )
     async def ball_command(self, ctx, *, question = None):
+        """一個8ball?"""
         if question is None:
             await ctx.reply('這裡啥都沒!')
         else:
@@ -21,10 +22,11 @@ class Fun(commands.Cog, description="好玩的東西"):
 
     @commands.command(
         name='choice',
-        description='1; 幫你選擇個東西',
+        description='幫你選擇個東西',
         aliases=['choose', 'pick'],
     )
     async def choice_command(self, ctx, *choices : str):
+        """幫你選擇個東西"""
         try:
             await ctx.send(f"我選... {random.choice(choices)} !")
         except:

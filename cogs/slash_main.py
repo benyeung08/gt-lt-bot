@@ -55,7 +55,7 @@ class Slash_main(Cog):
 
       embed = discord.Embed(title=name + " 伺服器資訊",
                           description=description,
-                          color=discord.Color.green())
+                          color=0xffffff)
       embed.set_thumbnail(url=icon)
       embed.add_field(name="伺服器擁有者", value=owner, inline=True)
       embed.add_field(name="伺服器ID", value=id, inline=True)
@@ -73,15 +73,15 @@ class Slash_main(Cog):
 
     @cog_ext.cog_slash(name="user",description="關於使用者")
     async def user(self, ctx: SlashContext, user: discord.Member):
-        embed = discord.Embed(title="{}'s info".format(user), color=0x176cd5)
-        embed.add_field(name="Username", value=user.name + "#" + user.discriminator, inline=True)
+        embed = discord.Embed(title="{}的資料".format(user), color=0xffffff)
+        embed.add_field(name="名稱", value=user.name + "#" + user.discriminator, inline=True)
         embed.add_field(name="ID", value=user.id, inline=True)
-        embed.add_field(name="Status", value=user.status, inline=True)
-        embed.add_field(name="Highest role", value=user.top_role)
-        embed.add_field(name="Roles", value=len(user.roles))
-        embed.add_field(name="Joined", value=user.joined_at)   
-        embed.add_field(name="Created", value=user.created_at)
-        embed.add_field(name="Bot?", value=user.bot)
+        embed.add_field(name="狀態", value=user.status, inline=True)
+        embed.add_field(name="最高身分", value=user.top_role)
+        embed.add_field(name="身分組", value=f"{len(user.roles)}個")
+        embed.add_field(name="加入自", value=user.joined_at)   
+        embed.add_field(name="創建自", value=user.created_at)
+        embed.add_field(name="機器人?", value=user.bot)
         embed.set_thumbnail(url=user.avatar_url)
         await ctx.send(embed=embed)
 

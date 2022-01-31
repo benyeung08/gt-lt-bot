@@ -6,10 +6,11 @@ from discord_slash import SlashCommand
 from discord.ext import commands
 from pretty_help import PrettyHelp
 
-owners = [881312396784840744, 778193161322627102, 7788274635871092777]
+owners = [881312396784840744, 7788274635871092777]
 activity = discord.Activity(type=discord.ActivityType.playing, name="…什麼東西")
 bot = commands.Bot(command_prefix="><", activity=activity, owner_ids = set(owners), intents=Intents.all())
-bot.help_command = PrettyHelp(color=0xffffff)
+ending_note = "使用 ><help 來顯示這個訊息\n這是一個幫助訊息，能列出所有指令，好讓你能輕鬆自在的使用這個機器人"
+bot.help_command = PrettyHelp(color=0xffffff, ending_note=ending_note)
 slash = SlashCommand(bot, sync_commands=True)
 
 @bot.event

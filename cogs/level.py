@@ -15,7 +15,7 @@ level = ["Level-5+", "Level-10+", "Level-15+"]
 #add the level number at which you want to give the role
 level_num = [5, 10, 15]
 
-class Levelsys(commands.Cog, description="等級系統"):
+class Level(commands.Cog, description="等級系統"):
   def __init__(self, bot):
     self.bot = bot
 
@@ -50,21 +50,25 @@ class Levelsys(commands.Cog, description="等級系統"):
             json.dump(data, f)
 
           if new_level > lvl:
-            await message.channel.send(f"{message.author.mention} 你升級到等級 {new_level} 了呢!!!")
+            try:
+                await message.channel.send(f"{message.author.mention} 你升級到等級 {new_level} 了呢!!!")
+            except:
+                print(f"{message.author} 升級到等級 {new_level} 訊息傳送失敗")
 
             data[str(message.author.id)]['level']=new_level
             data[str(message.author.id)]['xp']=0
 
             with open("datas/levels.json", "w") as f:
               json.dump(data, f)
-            
-            for i in range(len(level)):
-              if new_level == level_num[i]:
-                await message.author.add_roles(discord.utils.get(message.author.guild.roles, name=level[i]))
+            try:
+              for i in range(len(level)):
+                if new_level == level_num[i]:
 
-                mbed = discord.Embed(title=f"嘿! {message.author} 達到等級 **{level[i]}** 了!", color = message.author.colour)
-                mbed.set_thumbnail(url=message.author.avatar_url)
-                await message.channel.send(embed=mbed)
+                  mbed = discord.Embed(title=f"嘿! {message.author.mention} 你達到等級 **{level[i]}** 了!", color = message.author.colour)
+                  mbed.set_thumbnail(url=message.author.avatar_url)
+                  await message.channel.send(embed=mbed)
+            except:
+                print(f"{message.author} 升級到等級 {new_level} 嵌入傳送失敗")
         else:
           data[str(message.author.id)] = {}
           data[str(message.author.id)]['xp'] = 0
@@ -75,6 +79,7 @@ class Levelsys(commands.Cog, description="等級系統"):
 
   @commands.command(name="rank")
   async def rank(self, ctx: commands.Context, user: Optional[discord.Member]):
+    """查看等級"""
     userr = user or ctx.author
 
     with open("datas/levels.json", "r") as f:
@@ -136,4 +141,4 @@ class Levelsys(commands.Cog, description="等級系統"):
     except:
       await ctx.send(file=discord.File(r'images/levels/zERROR.png'))
 def setup(client):
-  client.add_cog(Levelsys(client))
+  client.add_cog(Level(client))

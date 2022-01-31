@@ -94,8 +94,7 @@ async def is_audio_requester(ctx):
     if permissions.administrator or state.is_requester(ctx.author):
         return True
     else:
-        await ctx.send(
-            "你必須是歌曲的請求者才能做到")
+        return
 
 
 class Music(commands.Cog):
@@ -113,29 +112,13 @@ class Music(commands.Cog):
             self.states[guild.id] = GuildState()
             return self.states[guild.id]
 
-    @commands.command(aliases=["stop"])
-    @commands.guild_only()
-    @commands.has_permissions(administrator=True)
-    async def leave(self, ctx):
-        """離開目前的語音頻道"""
-        client = ctx.guild.voice_client
-        state = self.get_state(ctx.guild)
-        if client and client.channel:
-            await client.disconnect()
-            state.playlist = []
-            state.now_playing = None
-            await ctx.send("⏹️")
-            
-        else:
-            await ctx.send("不在語音頻道")
-
     @commands.command(aliases=["resume"])
     @commands.guild_only()
     @commands.check(audio_playing)
     @commands.check(in_voice_channel)
     @commands.check(is_audio_requester)
     async def pause(self, ctx):
-        """暫停音樂"""
+        """暫停/撥放音樂"""
         client = ctx.guild.voice_client
         self._pause_audio(client)
 
@@ -288,6 +271,8 @@ class Music(commands.Cog):
         client = ctx.guild.voice_client
         state = self.get_state(ctx.guild)  # get the guild's state
 
+        
+
         if client and client.channel:
             try:
                 video = Video(url, ctx.author)
@@ -305,7 +290,7 @@ class Music(commands.Cog):
                     video = Video(url, ctx.author)
                 except youtube_dl.DownloadError as e:
                     await ctx.send(
-                        "下載您的視頻時出錯")
+                        f"下載您的視頻時出錯 {e}")
                     return
                 client = await channel.connect()
                 self._play_song(client, state, video)
@@ -319,6 +304,7 @@ class Music(commands.Cog):
     async def on_reaction_add(self, reaction, user):
         """Respods to reactions added to the bot's messages, allowing reactions to control playback."""
         message = reaction.message
+        CONTROLS = ["⏮", "⏯", "⏭", "🔉", "🔊", "❌"]
         if user != self.bot.user and message.author == self.bot.user:
             await message.remove_reaction(reaction, user)
             if message.guild and message.guild.voice_client:
@@ -370,7 +356,8 @@ class Music(commands.Cog):
                           await client.disconnect()
                           state.playlist = []
                           state.now_playing = None
-                        await message.channel.send("⏹️")
+                          for control in CONTROLS:
+                            await message.remove_reaction(control, self.bot.user)
 
                 elif reaction.emoji == "⏭" and vote_skip and user_in_channel and message.guild.voice_client and message.guild.voice_client.channel:
                     # ensure that skip was pressed, that vote skipping is
@@ -410,4 +397,7 @@ class GuildState:
         self.now_playing = None
 
     def is_requester(self, user):
-        return self.now_playing.requested_by == user
+        try:
+          return self.now_playing.requested_by == user
+        except:
+          return
