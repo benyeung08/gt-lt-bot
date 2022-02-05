@@ -1,7 +1,10 @@
+import time
 import discord
+import platform
 from datetime import datetime,timezone,timedelta
 from discord.ext import commands
 
+up_time = time.time()
 
 class Main(commands.Cog, description="雜項"):
     def __init__(self, bot):
@@ -41,13 +44,11 @@ class Main(commands.Cog, description="雜項"):
     @commands.command()
     async def link(self,ctx):
       """連結"""
-      async with ctx.typing():
-        embed=discord.Embed(title=" ", color=0xffffff)
-        embed.set_author(name="點我邀請機器人", url="https://discord.com/oauth2/authorize?client_id=881788746222157884&permissions=8&scope=bot",
+      embed=discord.Embed(title=" ", color=0xffffff)
+      embed.set_author(name="點我邀請機器人", url="https://discord.com/oauth2/authorize?client_id=881788746222157884&permissions=8&scope=bot",
 
-        icon_url = "https://cdn.discordapp.com/avatars/881788746222157884/c509fe9813837da63278d08cdd39ddbb.webp?size=1024")
-        await ctx.send(embed=embed)
-        
+      icon_url = "https://cdn.discordapp.com/avatars/881788746222157884/c509fe9813837da63278d08cdd39ddbb.webp?size=1024")
+      await ctx.send(embed=embed)
 
     @commands.command()
     async def server(self ,ctx):
@@ -76,7 +77,6 @@ class Main(commands.Cog, description="雜項"):
       embed.add_field(name="語音頻道", value=len(ctx.guild.voice_channels))
       embed.add_field(name="身分組", value=len(ctx.guild.roles), inline=True)
       embed.add_field(name="創立於", value=(ctx.guild.created_at))
-
       await ctx.send(embed=embed)
 
     @commands.command()
@@ -95,6 +95,20 @@ class Main(commands.Cog, description="雜項"):
         embed.add_field(name="機器人?", value=user.bot)
         embed.set_thumbnail(url=user.avatar_url)
         embed.set_author(name=ctx.message.author, icon_url=ctx.message.author.avatar_url)
+        await ctx.send(embed=embed)
+
+    @commands.command(name="botinfo")
+    async def botinfo(self, ctx):
+        current_time = time.time() 
+        difference = int(round(current_time - up_time))
+        text = str(timedelta(seconds=difference))
+        embed = discord.Embed(name="botinfo", color = 0xffffff)
+        embed.add_field(name='延遲', value="{} ms".format(round(self.bot.latency * 1000)))
+        embed.add_field(name="加入的伺服器", value= f"{len(self.bot.guilds)} 個")
+        embed.add_field(name="使用人數", value = len(set(self.bot.get_all_members())))
+        embed.add_field(name="Discord.py 版本", value= discord.__version__)
+        embed.add_field(name="Python 版本", value = platform.python_version())
+        embed.add_field(name="啟動時間", value= text)
         await ctx.send(embed=embed)
 
 def setup(bot):

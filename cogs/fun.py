@@ -13,10 +13,7 @@ class Fun(commands.Cog, description="好玩的東西"):
     )
     async def ball_command(self, ctx, *, question = None):
         """一個8ball?"""
-        if question is None:
-            await ctx.reply('這裡啥都沒!')
-        else:
-            await ctx.reply(random.choice(list1))
+        await ctx.reply(random.choice(list1))
 
         return
 
@@ -30,7 +27,7 @@ class Fun(commands.Cog, description="好玩的東西"):
         try:
             await ctx.send(f"我選... {random.choice(choices)} !")
         except:
-            await ctx.send('我什麼也沒選')
+            await ctx.send('你什麼都沒告訴我我要怎麼選')
 
         return
 def setup(bot):

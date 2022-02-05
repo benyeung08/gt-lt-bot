@@ -21,7 +21,9 @@ class Event(commands.Cog):
         await message.channel.send(random.choice(tmp))
     except:
       return
-
+    if self.bot.user.mentioned_in(message):
+      if message.content == '<@!881788746222157884>':
+        await message.channel.send("You can type `>< help` for more info")
   @commands.Cog.listener(name='on_command')
   async def print(self, ctx):
     server = ctx.guild.name

@@ -1,4 +1,5 @@
 import os
+import time
 import discord
 import keep_alive
 from discord import Intents
@@ -75,7 +76,6 @@ async def bug(ctx, desc=None, rep=None):
     adminBug = bot.get_channel(934325021571154021)
     await adminBug.send(embed=embed)
     await ctx.author.send('OK!')
-    # Add 3 reaction (different emojis) here
 #------------------------------------
 
 for Filename in os.listdir('./cogs'):

@@ -268,6 +268,8 @@ class Music(commands.Cog):
     async def play(self, ctx, *, url):
         """播放"""
 
+        message = await ctx.send("準備中...請稍後...")
+
         client = ctx.guild.voice_client
         state = self.get_state(ctx.guild)  # get the guild's state
 
@@ -277,12 +279,12 @@ class Music(commands.Cog):
             try:
                 video = Video(url, ctx.author)
             except youtube_dl.DownloadError as e:
-                await ctx.send(f"下載視頻時出錯: {e}")
+                await ctx.send(f"下載時出錯: {e}")
                 return
             state.playlist.append(video)
-            message = await ctx.send(
+            await ctx.send(
                 "添加到隊列", embed=video.get_embed())
-            await self._add_reaction_controls(message)
+            await message.delete()
         else:
             if ctx.author.voice is not None and ctx.author.voice.channel is not None:
                 channel = ctx.author.voice.channel
@@ -290,14 +292,16 @@ class Music(commands.Cog):
                     video = Video(url, ctx.author)
                 except youtube_dl.DownloadError as e:
                     await ctx.send(
-                        f"下載您的視頻時出錯 {e}")
+                        f"下載時出錯 {e}")
                     return
                 client = await channel.connect()
                 self._play_song(client, state, video)
-                message = await ctx.send("", embed=video.get_embed())
+                await message.delete()
+                message = await ctx.send(embed=video.get_embed())
                 await self._add_reaction_controls(message)
                 logging.info(f"正在播放 '{video.title}'")
             else:
+                await message.delete()
                 await ctx.send(
                     "請先加入語音頻道")
 

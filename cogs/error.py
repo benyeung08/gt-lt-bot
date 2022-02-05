@@ -6,13 +6,6 @@ class Error(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
   @commands.Cog.listener()
-  async def on_error(ctx, event, *args, **kwargs):
-    """Error handler for all events."""
-    s = traceback.format_exc()
-    content = f'Ignoring exception in {event}\n{s}'
-    print(content, file=sys.stderr)
-    await ctx.send(f"Error錯誤:\n{content}")
-  @commands.Cog.listener()
   async def on_command_error(self, ctx, error):
         # if command has local error handler, return
         if hasattr(ctx.command, 'on_error'):
@@ -49,23 +42,23 @@ class Error(commands.Cog):
                 fmt = '{}, and {}'.format("**, **".join(missing[:-1]), missing[-1])
             else:
                 fmt = ' and '.join(missing)
-            _message = 'You need the **{}** permission(s) to use this command.'.format(fmt)
+            _message = 'You need the **{}** permission(s) to use this command.(MissingPermissions)'.format(fmt)
             await ctx.send(_message)
             return
 
         if isinstance(error, commands.UserInputError):
-            await ctx.send("Invalid input.")
+            await ctx.send("Invalid input.(UserInputError)")
             return
 
         if isinstance(error, commands.NoPrivateMessage):
             try:
-                await ctx.author.send('This command cannot be used in direct messages.')
+                await ctx.author.send('This command cannot be used in direct messages.(NoPrivateMessage)')
             except discord.Forbidden:
                 pass
             return
 
         if isinstance(error, commands.CheckFailure):
-            await ctx.send("You do not have permission to use this command.")
+            await ctx.send("You do not have permission to use this command.(CheckFailure)")
             return
 
         # ignore all other exception types, but print them to stderr
