@@ -273,6 +273,7 @@ class voice(commands.Cog):
 
     @voice.command()
     async def claim(self, ctx):
+        """轉讓語音頻道"""
         x = False
         conn = sqlite3.connect('datas/voice.db')
         c = conn.cursor()

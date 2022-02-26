@@ -1,8 +1,13 @@
+import time
+import psutil
 import discord
+import platform
 from discord import Embed
 from discord.ext.commands import Bot, Cog
 from discord_slash import cog_ext, SlashContext
 from datetime import datetime,timezone,timedelta
+
+up_time = time.time()
 
 class Slash_main(Cog):
     def __init__(self, bot: Bot):
@@ -85,7 +90,25 @@ class Slash_main(Cog):
         embed.set_thumbnail(url=user.avatar_url)
         await ctx.send(embed=embed)
 
-
+    @cog_ext.cog_slash(name="botinfo",description="關於這個機器人")
+    async def botinfo(self, ctx):
+        current_time = time.time() 
+        difference = int(round(current_time - up_time))
+        text = str(timedelta(seconds=difference))
+        embed = discord.Embed(title="關於機器人", color = 0xffffff)
+        embed.add_field(name="Prefix", value="><")
+        embed.add_field(name='延遲', value="{} ms".format(round(self.bot.latency * 1000)))
+        embed.add_field(name="加入的伺服器", value= f"{len(self.bot.guilds)} 個")
+        embed.add_field(name="使用人數", value = len(set(self.bot.get_all_members())))
+        embed.add_field(name="指令總數", value=len(self.bot.commands))
+        embed.add_field(name="狀態", value="線上")
+        embed.add_field(name="Discord.py 版本", value= discord.__version__)
+        embed.add_field(name="Python 版本", value = platform.python_version())
+        embed.add_field(name = "Developer:", value = f"<@881312396784840744>")
+        embed.add_field(name="啟動時間", value = text)
+        embed.add_field(name="CPU", value=f"{psutil.cpu_percent()} %")
+        embed.add_field(name="RAM", value=f"{psutil.virtual_memory().percent} %")
+        await ctx.send(embed=embed)
 
 def setup(bot: Bot):
     bot.add_cog(Slash_main(bot))

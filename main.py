@@ -1,9 +1,9 @@
 import os
-import time
 import discord
 import keep_alive
 from discord import Intents
 from discord_slash import SlashCommand
+from discord_together import DiscordTogether
 from discord.ext import commands
 from pretty_help import PrettyHelp
 
@@ -17,12 +17,14 @@ slash = SlashCommand(bot, sync_commands=True)
 @bot.event
 #當機器人完成啟動時
 async def on_ready():
+	bot.togetherControl = await DiscordTogether(os.environ['TOKEN'])
 	print('> 目前登入身份：', bot.user)
 	print('> Bot is now running.')
 
+
 @bot.command()
 async def load(ctx, extension):
-  """創作者專用"""
+  """員工專用"""
   is_owner = await ctx.bot.is_owner(ctx.author)
   if is_owner:
 	  bot.load_extension(f'cogs.{extension}')
@@ -32,7 +34,7 @@ async def load(ctx, extension):
 
 @bot.command()
 async def unload(ctx, extension):
-  """創作者專用"""
+  """員工專用"""
   is_owner = await ctx.bot.is_owner(ctx.author)
   if is_owner:
 	  bot.unload_extension(f'cogs.{extension}')
@@ -42,7 +44,7 @@ async def unload(ctx, extension):
 
 @bot.command()
 async def reload(ctx, extension):
-  """創作者專用"""
+  """員工專用"""
   is_owner = await ctx.bot.is_owner(ctx.author)
   if is_owner:
 	  bot.reload_extension(f'cogs.{extension}')
@@ -52,7 +54,7 @@ async def reload(ctx, extension):
 
 @bot.command()
 async def reloadall(ctx):
-  """創作者專用"""
+  """員工專用"""
   is_owner = await ctx.bot.is_owner(ctx.author)
   if is_owner:
     for file in os.listdir("cogs"):
@@ -66,6 +68,7 @@ async def reloadall(ctx):
 #------------------------------------
 @bot.command()
 async def bug(ctx, desc=None, rep=None):
+    """回報bug"""
     user = ctx.author
     await ctx.author.send('```描述一下你找到的bug```')
     responseDesc = await bot.wait_for('message', check=lambda message: message.author == ctx.author, timeout=300)

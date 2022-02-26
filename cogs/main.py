@@ -1,4 +1,5 @@
 import time
+import psutil
 import discord
 import platform
 from datetime import datetime,timezone,timedelta
@@ -12,7 +13,7 @@ class Main(commands.Cog, description="雜項"):
         
     @commands.command()
     async def ping(self, ctx):
-        """BOT延遲"""
+        """機器人的延遲"""
         await ctx.send(f"{round(self.bot.latency*1000)} ms")
 
     @commands.command()
@@ -22,7 +23,7 @@ class Main(commands.Cog, description="雜項"):
 
     @commands.command()
     async def say(self, ctx, *, msg):
-        """說話"""
+        """照著說某段話"""
         await ctx.send(msg)
 
     @commands.command()
@@ -43,7 +44,7 @@ class Main(commands.Cog, description="雜項"):
 
     @commands.command()
     async def link(self,ctx):
-      """連結"""
+      """機器人邀請連結"""
       embed=discord.Embed(title=" ", color=0xffffff)
       embed.set_author(name="點我邀請機器人", url="https://discord.com/oauth2/authorize?client_id=881788746222157884&permissions=8&scope=bot",
 
@@ -99,16 +100,23 @@ class Main(commands.Cog, description="雜項"):
 
     @commands.command(name="botinfo")
     async def botinfo(self, ctx):
+        """關於這個機器人"""
         current_time = time.time() 
         difference = int(round(current_time - up_time))
         text = str(timedelta(seconds=difference))
-        embed = discord.Embed(name="botinfo", color = 0xffffff)
+        embed = discord.Embed(title="關於機器人", color = 0xffffff)
+        embed.add_field(name="Prefix", value="><")
         embed.add_field(name='延遲', value="{} ms".format(round(self.bot.latency * 1000)))
         embed.add_field(name="加入的伺服器", value= f"{len(self.bot.guilds)} 個")
         embed.add_field(name="使用人數", value = len(set(self.bot.get_all_members())))
+        embed.add_field(name="指令總數", value=len(self.bot.commands))
+        embed.add_field(name="狀態", value="線上")
         embed.add_field(name="Discord.py 版本", value= discord.__version__)
         embed.add_field(name="Python 版本", value = platform.python_version())
-        embed.add_field(name="啟動時間", value= text)
+        embed.add_field(name = "Developer:", value = f"<@881312396784840744>")
+        embed.add_field(name="啟動時間", value = text)
+        embed.add_field(name="CPU", value=f"{psutil.cpu_percent()} %")
+        embed.add_field(name="RAM", value=f"{psutil.virtual_memory().percent} %")
         await ctx.send(embed=embed)
 
 def setup(bot):

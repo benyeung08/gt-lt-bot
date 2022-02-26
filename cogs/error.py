@@ -33,7 +33,7 @@ class Error(commands.Cog):
             return
 
         if isinstance(error, commands.CommandOnCooldown):
-            await ctx.send("This command is on cooldown, please retry in {}s.(CommandOnCooldown)".format(math.ceil(error.retry_after)))
+            await ctx.send("指令還在冷卻， {} 秒後再式一次.(CommandOnCooldown)".format(math.ceil(error.retry_after)))
             return
 
         if isinstance(error, commands.MissingPermissions):
@@ -42,23 +42,23 @@ class Error(commands.Cog):
                 fmt = '{}, and {}'.format("**, **".join(missing[:-1]), missing[-1])
             else:
                 fmt = ' and '.join(missing)
-            _message = 'You need the **{}** permission(s) to use this command.(MissingPermissions)'.format(fmt)
+            _message = '你需要 **{}** 的權限(MissingPermissions)'.format(fmt)
             await ctx.send(_message)
             return
 
         if isinstance(error, commands.UserInputError):
-            await ctx.send("Invalid input.(UserInputError)")
+            await ctx.send("輸入錯誤(UserInputError)")
             return
 
         if isinstance(error, commands.NoPrivateMessage):
             try:
-                await ctx.author.send('This command cannot be used in direct messages.(NoPrivateMessage)')
+                await ctx.author.send('這個指令不能用在私訊(NoPrivateMessage)')
             except discord.Forbidden:
                 pass
             return
 
         if isinstance(error, commands.CheckFailure):
-            await ctx.send("You do not have permission to use this command.(CheckFailure)")
+            await ctx.send("你沒有權限(CheckFailure)")
             return
 
         # ignore all other exception types, but print them to stderr

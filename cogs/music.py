@@ -1,3 +1,4 @@
+from discord_components import Button
 from discord.ext import commands
 import discord
 import asyncio
@@ -214,7 +215,7 @@ class Music(commands.Cog):
     @commands.guild_only()
     @commands.check(audio_playing)
     async def nowplaying(self, ctx):
-        """顯示有​​關當前歌曲的信息"""
+        """顯示有關當前歌曲的信息"""
         state = self.get_state(ctx.guild)
         message = await ctx.send("", embed=state.now_playing.get_embed())
         await self._add_reaction_controls(message)
@@ -223,12 +224,12 @@ class Music(commands.Cog):
     @commands.guild_only()
     @commands.check(audio_playing)
     async def queue(self, ctx):
-        """顯示當前播放隊列。"""
+        """顯示當前播放隊列"""
         state = self.get_state(ctx.guild)
         await ctx.send(self._queue_text(state.playlist))
 
     def _queue_text(self, queue):
-        """返回描述給定歌曲隊列的文本塊。"""
+        """返回描述給定歌曲隊列的文本塊"""
         if len(queue) > 0:
             message = [f"有 **{len(queue)}** 首歌在播放隊列:"]
             message += [
@@ -244,16 +245,17 @@ class Music(commands.Cog):
     @commands.check(audio_playing)
     @commands.has_permissions(administrator=True)
     async def clearqueue(self, ctx):
-        """在不離開頻道的情況下清除播放隊列。"""
+        """在不離開頻道的情況下清除播放隊列"""
         state = self.get_state(ctx.guild)
         state.playlist = []
+        await ctx.send("完成")
 
     @commands.command(aliases=["jq"])
     @commands.guild_only()
     @commands.check(audio_playing)
     @commands.has_permissions(administrator=True)
     async def jumpqueue(self, ctx, song: int, new_index: int):
-        """將索引處的歌曲移動到隊列中的“new_index”。"""
+        """將索引處的歌曲移動到隊列中的“new_index”"""
         state = self.get_state(ctx.guild)  # get state for this guild
         if 1 <= song <= len(state.playlist) and 1 <= new_index:
             song = state.playlist.pop(song - 1)  # take song at index...
@@ -305,6 +307,15 @@ class Music(commands.Cog):
                 await ctx.send(
                     "請先加入語音頻道")
 
+    @commands.command()
+    async def youtube(self, ctx):
+      try:
+        link = await self.bot.togetherControl.create_link(ctx.author.voice.channel.id, 'youtube')
+        btn = Button(label="按一下來加入", url=link)
+        await ctx.send(f"按一下連結來加入\n{link}", components = btn)
+      except:
+        await ctx.send("請加入語音頻道")
+
     async def on_reaction_add(self, reaction, user):
         """Respods to reactions added to the bot's messages, allowing reactions to control playback."""
         message = reaction.message
@@ -326,10 +337,12 @@ class Music(commands.Cog):
                         # skip audio
                         client.stop()
                         time.sleep(1)
+
                         state = self.get_state(message.guild)
-                        message = await message.channel.send("", embed=state.now_playing.get_embed())
-                        await self._add_reaction_controls(message)
-                        
+                        msg = await message.channel.send("", embed=state.now_playing.get_embed())
+                        await self._add_reaction_controls(msg)
+                        for control in CONTROLS:
+                          await message.remove_reaction(control, self.bot.user)
                     elif reaction.emoji == "⏮":
                         state.playlist.insert(
                             0, state.now_playing
