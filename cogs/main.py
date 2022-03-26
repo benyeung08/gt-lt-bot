@@ -10,7 +10,6 @@ up_time = time.time()
 class Main(commands.Cog, description="雜項"):
     def __init__(self, bot):
         self.bot = bot
-        
     @commands.command()
     async def ping(self, ctx):
         """機器人的延遲"""

@@ -1,4 +1,4 @@
-from discord_components import Button
+from discord_components import Button, ButtonStyle
 from discord.ext import commands
 import discord
 import asyncio
@@ -271,12 +271,11 @@ class Music(commands.Cog):
         """播放"""
 
         message = await ctx.send("準備中...請稍後...")
-
         client = ctx.guild.voice_client
+        channel = ctx.author.voice.channel
         state = self.get_state(ctx.guild)  # get the guild's state
-
+        await self.bot.ws.voice_state(ctx.guild.id, channel.id, self_deaf=True)
         
-
         if client and client.channel:
             try:
                 video = Video(url, ctx.author)
@@ -309,12 +308,11 @@ class Music(commands.Cog):
 
     @commands.command()
     async def youtube(self, ctx):
-      try:
+      if ctx.author.voice is not None and ctx.author.voice.channel is not None:
         link = await self.bot.togetherControl.create_link(ctx.author.voice.channel.id, 'youtube')
-        btn = Button(label="按一下來加入", url=link)
-        await ctx.send(f"按一下連結來加入\n{link}", components = btn)
-      except:
-        await ctx.send("請加入語音頻道")
+        await ctx.send(f"按一下按鈕來加入", components = [Button(label="按一下來加入", style=ButtonStyle.URL, url=link)],)
+      else:
+        await ctx.send("請先加入語音頻道")        
 
     async def on_reaction_add(self, reaction, user):
         """Respods to reactions added to the bot's messages, allowing reactions to control playback."""

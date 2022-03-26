@@ -39,9 +39,9 @@ class Error(commands.Cog):
         if isinstance(error, commands.MissingPermissions):
             missing = [perm.replace('_', ' ').replace('guild', 'server').title() for perm in error.missing_perms]
             if len(missing) > 2:
-                fmt = '{}, and {}'.format("**, **".join(missing[:-1]), missing[-1])
+                fmt = '{}, 和 {}'.format("**, **".join(missing[:-1]), missing[-1])
             else:
-                fmt = ' and '.join(missing)
+                fmt = ' 和 '.join(missing)
             _message = '你需要 **{}** 的權限(MissingPermissions)'.format(fmt)
             await ctx.send(_message)
             return
@@ -63,6 +63,11 @@ class Error(commands.Cog):
 
         # ignore all other exception types, but print them to stderr
         print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+
+        try:
+          await ctx.send('發生錯誤，請再式一次或使用 `><bug` 來回報\n錯誤訊息: \n Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+        except:
+          await ctx.send("發生錯誤，無法傳送錯誤訊息，請再式一次或使用 `><bug` 來回報")
 
         traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
 

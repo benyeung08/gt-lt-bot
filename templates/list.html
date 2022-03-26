@@ -1,9 +1,20 @@
 <!DOCTYPE html>
-<head lang="zh-tw">
- <title>list</title>
- <link rel="icon" href="https://webfile.liyoujun600.repl.co/img/favicon.png" type="image/png">
-</head>
-<body>
+<html lang="zh-tw">
+<head>
+  <meta charset="UTF-8">
+  <title>&gt; &lt; -投票</title>
+
+  <meta content="&gt; &lt;" property="og:title" />
+  <meta content="多功能的機器人，讓你的伺服器更加有趣!" property="og:description" />
+  <!--<meta content="https://embed.com/this-is-the-site-url" property="og:url" />-->
+  <meta content="https://webfile.liyoujun600.repl.co/img/botavatar.png" property="og:image" />
+  <meta content="#FFFFFF" data-react-helmet="true" name="theme-color" />
+        
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <link href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css' rel='stylesheet'>
+  <link rel="icon" href="https://webfile.liyoujun600.repl.co/img/favicon.png" type="image/png">
+  <link href="https://webfile.liyoujun600.repl.co/css/index.css" rel="stylesheet">
+  <link href="https://webfile.liyoujun600.repl.co/css/footer.css" rel="stylesheet">
 <style>
 .back-btn{
     width: 150px;
@@ -12,9 +23,9 @@
     text-align: center;
     cursor: pointer;
     line-height: 10px;
-    color: #000;
+    color: #fff;
     background-color: transparent;
-    border: 1px solid #000;
+    border: 1px solid #fff;
     position: relative;
     transition: all .3s linear;
 }
@@ -27,14 +38,14 @@
     width: 0%;
     height: 100%;
     display: block;
-    background-color: #000;
+    background-color: #fff;
     position: absolute;
     top: 0;
     right: 0;
     transition: all .3s ease;
 }
 .back-btn:hover{
-    color: #fff;
+    color: #000;
 }
 .back-btn:hover::before{
     width: 100%;
@@ -45,10 +56,10 @@
     display: block;
     text-align: center;
     cursor: pointer;
-    line-height: 10px;
-    color: #000;
+    line-height: 40px;
+    color: #fff;
     background-color: transparent;
-    border: 1px solid #000;
+    border: 1px solid #fff;
     position: relative;
     transition: all .3s linear;
 }
@@ -61,14 +72,14 @@
     width: 0%;
     height: 100%;
     display: block;
-    background-color: #000;
+    background-color: #fff;
     position: absolute;
     top: 0;
     left: 0;
     transition: all .3s ease;
 }
 .btn-1:hover{
-    color: #fff;
+    color: #000;
 }
 .btn-1:hover::before{
     width: 100%;
@@ -77,11 +88,96 @@ a {
     text-decoration:none;
 }
 </style>
-
-<a href="https://pickname.repl.co"><div class="back-btn"><p>回去</p></div></a>
+</head>
+<body>
+  <!-- partial:index.partial.html -->
+  <!-- navbar 表示這是一個 flex-box -->
+  <!-- navbar-expand-md 負責轉手機版的寬度, lg:991以下轉手機版, md:767以下轉手機版, sm:575以下轉手機版 -->
+  <!-- navbar-dark讓文字為白色, bg-dark負責背景顏色為暗底 -->
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <!--  這是 LOGO 文字或圖片  -->
+    <a class="navbar-brand bg-dark" href="home">&gt; &lt;</a> <!--  這是手機版時右上角呈現的選單按鈕, 注意:data-target表示按下這個按鈕時要控制展開收合的物件ID名稱  -->
+     <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarNav" data-toggle="collapse" type="button"><!-- 這是按鈕上呈現的icon圖案 -->
+     <span class="navbar-toggler-icon"></span></button> <!-- navbar-collapse表示這個框架區塊是可收展開的, 注意:id名稱必須跟button中的data-target一樣 -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <!-- 靠左側的選單 -->
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link bg-dark" href="home">首頁 <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link bg-dark" href="commands">指令</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link bg-dark" href="list">投票</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link bg-dark" href="supportw">支援伺服器</a>
+        </li>
+      </ul><!-- 靠右側的選單 -->
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle bg-dark" data-toggle="dropdown" href="#" id="navbarDropdownpageLink">跳轉到區域</a>
+          <div aria-labelledby="navbarDropdownpageLink" class="dropdown-menu">
+            <a class="dropdown-item" href="#head">回到頂部</a>
+            <a class="dropdown-item" href="#list">指令</a>
+            <a class="dropdown-item" href="#join">加入伺服器</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <section id="head" style="color:white;" class="bg-dark">
+    <center>
+      <h1>投票</h1>
+    </center>
+  <section id="list" style="color:white;" class="bg-dark">
 <center>
-  <h1>選擇一個</h1>
+  <a href="discordtw"><div class="btn-1"><p>DiscordTw</p></div></a>
   <a href="topgg"><div class="btn-1"><p>top.gg</p></div></a>
-  <a href="https://discordbotlist.com/bots/pia8"><div class="btn-1"><p>discordbotlist</p></div></a>
+  <a href="discordbotlist"><div class="btn-1"><p>discordbotlist</p></div></a>
 </center>
+  </section>
+  <section id="join">
+    <div class="jumbotron text-center bg-transparent">
+      <h1 class="display-3 htext-w">決定好了嗎?</h1>
+      <a class="btn btn-dark" href="/invite">➕加入到Discord</a> &nbsp; <a class="btn btn-dark" href="/support">▶️支援伺服器</a>
+    </div>
+  </section>
+  <section id="footer" class="site-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12 col-md-6">
+            <h6>關於</h6>
+            <p class="text-justify">Piakname 是一個沒有多少人的團隊，一直在盡力做出許多實用的小工具。</p>
+          </div>
+
+          <div class="col-xs-6 col-md-3">
+            <h6>連結</h6>
+            <ul class="footer-links">
+              <li><a href="mailto:liyoujun600@gmail.com">聯絡我們</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <center>
+        <widgetbot
+          server="932246409955135499"
+          channel="944767818375782441"
+          width="95%"
+          height="600"
+        ></widgetbot>
+      </center>
+<script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
+  </section>
+  <!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'>
+  </script> 
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js'>
+  </script> 
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js'>
+  </script> 
+  <script src="https://webfile.liyoujun600.repl.co/js/navbar.js">
+  </script>
 </body>
+</html>

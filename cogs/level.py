@@ -139,6 +139,6 @@ class Level(commands.Cog, description="等級系統"):
       card = File(fp=background.image_bytes, filename="images/levels/zCARD.png")
       await ctx.send(file=card)
     except:
-      await ctx.send(file=discord.File(r'images/levels/zERROR.png'))
+      await ctx.send("ERROR")
 def setup(client):
   client.add_cog(Level(client))

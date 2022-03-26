@@ -7,7 +7,7 @@ from discord_together import DiscordTogether
 from discord.ext import commands
 from pretty_help import PrettyHelp
 
-owners = [881312396784840744, 7788274635871092777]
+owners = [881312396784840744]
 activity = discord.Activity(type=discord.ActivityType.playing, name="…什麼東西")
 bot = commands.Bot(command_prefix="><", activity=activity, owner_ids = set(owners), intents=Intents.all())
 ending_note = "使用 ><help 來顯示這個訊息\n這是一個幫助訊息，能列出所有指令，好讓你能輕鬆自在的使用這個機器人"
@@ -38,7 +38,7 @@ async def unload(ctx, extension):
   is_owner = await ctx.bot.is_owner(ctx.author)
   if is_owner:
 	  bot.unload_extension(f'cogs.{extension}')
-	  await ctx.send(f'卸下{extension}完成')
+	  await ctx.send(f'卸載{extension}完成')
   else:
     await ctx.send("你不能做這件事")
 
@@ -78,7 +78,7 @@ async def bug(ctx, desc=None, rep=None):
     embed.add_field(name='回報者:', value=user, inline=True)
     adminBug = bot.get_channel(934325021571154021)
     await adminBug.send(embed=embed)
-    await ctx.author.send('OK!')
+    await ctx.author.send('完成!之後你可能會收到 AD#5438 的好友請求!')
 #------------------------------------
 
 for Filename in os.listdir('./cogs'):
