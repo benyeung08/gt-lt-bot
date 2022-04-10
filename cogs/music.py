@@ -98,7 +98,7 @@ async def is_audio_requester(ctx):
         return
 
 
-class Music(commands.Cog):
+class music(commands.Cog):
     """🎵"""
 
     def __init__(self, bot):
@@ -308,6 +308,7 @@ class Music(commands.Cog):
 
     @commands.command()
     async def youtube(self, ctx):
+      """使用youtube"""
       if ctx.author.voice is not None and ctx.author.voice.channel is not None:
         link = await self.bot.togetherControl.create_link(ctx.author.voice.channel.id, 'youtube')
         await ctx.send(f"按一下按鈕來加入", components = [Button(label="按一下來加入", style=ButtonStyle.URL, url=link)],)
@@ -399,7 +400,7 @@ class Music(commands.Cog):
             await message.add_reaction(control)
 
 def setup(bot):
-    bot.add_cog(Music(bot))
+    bot.add_cog(music(bot))
 
 
 class GuildState:

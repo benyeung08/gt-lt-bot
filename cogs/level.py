@@ -15,7 +15,7 @@ level = ["Level-5+", "Level-10+", "Level-15+"]
 #add the level number at which you want to give the role
 level_num = [5, 10, 15]
 
-class Level(commands.Cog, description="等級系統"):
+class level(commands.Cog, description="等級系統"):
   def __init__(self, bot):
     self.bot = bot
 
@@ -141,4 +141,4 @@ class Level(commands.Cog, description="等級系統"):
     except:
       await ctx.send("ERROR")
 def setup(client):
-  client.add_cog(Level(client))
+  client.add_cog(level(client))

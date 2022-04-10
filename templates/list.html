@@ -1,20 +1,5 @@
-<!DOCTYPE html>
-<html lang="zh-tw">
-<head>
-  <meta charset="UTF-8">
-  <title>&gt; &lt; -投票</title>
-
-  <meta content="&gt; &lt;" property="og:title" />
-  <meta content="多功能的機器人，讓你的伺服器更加有趣!" property="og:description" />
-  <!--<meta content="https://embed.com/this-is-the-site-url" property="og:url" />-->
-  <meta content="https://webfile.liyoujun600.repl.co/img/botavatar.png" property="og:image" />
-  <meta content="#FFFFFF" data-react-helmet="true" name="theme-color" />
-        
-  <meta content="width=device-width, initial-scale=1" name="viewport">
-  <link href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap.css' rel='stylesheet'>
-  <link rel="icon" href="https://webfile.liyoujun600.repl.co/img/favicon.png" type="image/png">
-  <link href="https://webfile.liyoujun600.repl.co/css/index.css" rel="stylesheet">
-  <link href="https://webfile.liyoujun600.repl.co/css/footer.css" rel="stylesheet">
+{% extends "base.html" %}
+  {% block head %}
 <style>
 .back-btn{
     width: 150px;
@@ -88,7 +73,8 @@ a {
     text-decoration:none;
 }
 </style>
-</head>
+  {% endblock head %}
+  {% block body %}
 <body>
   <!-- partial:index.partial.html -->
   <!-- navbar 表示這是一個 flex-box -->
@@ -138,46 +124,4 @@ a {
   <a href="discordbotlist"><div class="btn-1"><p>discordbotlist</p></div></a>
 </center>
   </section>
-  <section id="join">
-    <div class="jumbotron text-center bg-transparent">
-      <h1 class="display-3 htext-w">決定好了嗎?</h1>
-      <a class="btn btn-dark" href="/invite">➕加入到Discord</a> &nbsp; <a class="btn btn-dark" href="/support">▶️支援伺服器</a>
-    </div>
-  </section>
-  <section id="footer" class="site-footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12 col-md-6">
-            <h6>關於</h6>
-            <p class="text-justify">Piakname 是一個沒有多少人的團隊，一直在盡力做出許多實用的小工具。</p>
-          </div>
-
-          <div class="col-xs-6 col-md-3">
-            <h6>連結</h6>
-            <ul class="footer-links">
-              <li><a href="mailto:liyoujun600@gmail.com">聯絡我們</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <center>
-        <widgetbot
-          server="932246409955135499"
-          channel="944767818375782441"
-          width="95%"
-          height="600"
-        ></widgetbot>
-      </center>
-<script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
-  </section>
-  <!-- partial -->
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'>
-  </script> 
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js'>
-  </script> 
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta/js/bootstrap.min.js'>
-  </script> 
-  <script src="https://webfile.liyoujun600.repl.co/js/navbar.js">
-  </script>
-</body>
-</html>
+  {% endblock body %}

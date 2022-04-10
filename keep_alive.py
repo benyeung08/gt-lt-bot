@@ -2,19 +2,37 @@ from flask import Flask,render_template,redirect
 from threading import Thread
 app = Flask('')
 
+#-----------render_template------------
 @app.route('/')
 def home():
-    return render_template("home.html")
+    return render_template("home.html", title="首頁")
 def run():
     app.run(host="0.0.0.0", port=8080)
 def keep_alive():
     server = Thread(target=run)
     server.start()
 
+@app.route('/privacy-policy')
+def privacypolicy():
+   return render_template('privacy-policy.html', title="隱私政策")
+
+@app.route('/commands')
+def commands():
+    return render_template("cmds.html", title="指令大全")
+
+@app.route('/list')
+def list():
+    return render_template("list.html", title="投票大全")
+
+@app.route('/supportw')
+def supportw():
+    return render_template("support.html", title="支援大全")
+
+#-----------redirect------------
 @app.route("/home")
 def redirect_home():
    return redirect('/')
-
+        
 @app.route("/support")
 def support():
    return redirect('https://discord.gg/F8GfF37GWh')
@@ -27,18 +45,7 @@ def invite():
 def github():
    return redirect('https://github.com/tooty-1135/discord.py-bot')
 
-@app.route('/commands')
-def commands():
-    return render_template("cmds.html")
-
-@app.route('/list')
-def list():
-    return render_template("list.html")
-
-@app.route('/supportw')
-def supportw():
-    return render_template("support.html")
-
+#-----------list------------
 @app.route('/topgg')
 def topgg():
    return redirect('https://top.gg/bot/881788746222157884')

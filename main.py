@@ -12,7 +12,7 @@ activity = discord.Activity(type=discord.ActivityType.playing, name="…什麼�
 bot = commands.Bot(command_prefix="><", activity=activity, owner_ids = set(owners), intents=Intents.all())
 ending_note = "使用 ><help 來顯示這個訊息\n這是一個幫助訊息，能列出所有指令，好讓你能輕鬆自在的使用這個機器人"
 bot.help_command = PrettyHelp(color=0xffffff, ending_note=ending_note)
-slash = SlashCommand(bot, sync_commands=True)
+slash = SlashCommand(bot, sync_commands=True, sync_on_cog_reload=True)
 
 @bot.event
 #當機器人完成啟動時
@@ -30,7 +30,7 @@ async def load(ctx, extension):
 	  bot.load_extension(f'cogs.{extension}')
 	  await ctx.send(f'載入{extension}完成')
   else:
-    await ctx.send("你不能做這件事")
+    await ctx.send("你沒有權限做這件事")
 
 @bot.command()
 async def unload(ctx, extension):
@@ -40,7 +40,7 @@ async def unload(ctx, extension):
 	  bot.unload_extension(f'cogs.{extension}')
 	  await ctx.send(f'卸載{extension}完成')
   else:
-    await ctx.send("你不能做這件事")
+    await ctx.send("你沒有權限做這件事")
 
 @bot.command()
 async def reload(ctx, extension):
@@ -50,7 +50,7 @@ async def reload(ctx, extension):
 	  bot.reload_extension(f'cogs.{extension}')
 	  await ctx.send(f'重新載入{extension}完成')
   else:
-    await ctx.send("你不能做這件事")
+    await ctx.send("你沒有權限做這件事")
 
 @bot.command()
 async def reloadall(ctx):
@@ -63,7 +63,7 @@ async def reloadall(ctx):
         bot.reload_extension(f"cogs.{name}")
     await ctx.send("重新載入成功")
   else:
-    await ctx.send("你不能做這件事")
+    await ctx.send("你沒有權限做這件事")
 
 #------------------------------------
 @bot.command()

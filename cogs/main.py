@@ -7,7 +7,7 @@ from discord.ext import commands
 
 up_time = time.time()
 
-class Main(commands.Cog, description="雜項"):
+class main(commands.Cog, description="雜項"):
     def __init__(self, bot):
         self.bot = bot
     @commands.command()
@@ -119,4 +119,4 @@ class Main(commands.Cog, description="雜項"):
         await ctx.send(embed=embed)
 
 def setup(bot):
-    bot.add_cog(Main(bot))
+    bot.add_cog(main(bot))

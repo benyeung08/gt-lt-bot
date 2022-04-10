@@ -5,7 +5,7 @@ import sqlite3
 
 
 class voice(commands.Cog):
-    """語音頻道管理"""
+    """動態語音頻道"""
     def __init__(self, bot):
         self.bot = bot
 
@@ -36,7 +36,7 @@ class voice(commands.Cog):
                     c.execute("SELECT channelLimit FROM guildSettings WHERE guildID = ?", (guildID,))
                     guildSetting=c.fetchone()
                     if setting is None:
-                        name = f"{member.name}的 頻道"
+                        name = f"▶{member.name}的 頻道"
                         if guildSetting is None:
                             limit = 0
                         else:
@@ -74,12 +74,12 @@ class voice(commands.Cog):
 
     @commands.group()
     async def voice(self, ctx):
-        """語音頻道管理"""
+        """動態語音頻道"""
         pass
 
     @voice.command()
     async def setup(self, ctx):
-        """初始設定"""
+        """初始化動態語音頻道"""
         conn = sqlite3.connect('datas/voice.db')
         c = conn.cursor()
         guildID = ctx.guild.id
@@ -119,7 +119,7 @@ class voice(commands.Cog):
 
     @commands.command()
     async def setlimit(self, ctx, num):
-        """設定最大人數"""
+        """設定動態語音頻道的最大人數"""
         conn = sqlite3.connect('datas/voice.db')
         c = conn.cursor()
         if ctx.author.id == ctx.guild.owner.id or ctx.author.id == 151028268856770560:
@@ -141,14 +141,14 @@ class voice(commands.Cog):
 
     @voice.command()
     async def lock(self, ctx):
-        """鎖定語音頻道"""
+        """鎖定你的動態語音頻道"""
         conn = sqlite3.connect('datas/voice.db')
         c = conn.cursor()
         id = ctx.author.id
         c.execute("SELECT voiceID FROM voiceChannel WHERE userID = ?", (id,))
         voice=c.fetchone()
         if voice is None:
-            await ctx.channel.send(f"{ctx.author.mention} 你沒有自己的頻道")
+            await ctx.channel.send(f"{ctx.author.mention} 你沒有自己的動態語音頻道")
         else:
             channelID = voice[0]
             role = ctx.guild.default_role
@@ -160,14 +160,14 @@ class voice(commands.Cog):
 
     @voice.command()
     async def unlock(self, ctx):
-        """解鎖語音頻道"""
+        """解鎖你的動態語音頻道"""
         conn = sqlite3.connect('datas/voice.db')
         c = conn.cursor()
         id = ctx.author.id
         c.execute("SELECT voiceID FROM voiceChannel WHERE userID = ?", (id,))
         voice=c.fetchone()
         if voice is None:
-            await ctx.channel.send(f"{ctx.author.mention} 你沒有自己的頻道")
+            await ctx.channel.send(f"{ctx.author.mention} 你沒有自己的動態語音頻道")
         else:
             channelID = voice[0]
             role = ctx.guild.default_role
@@ -179,25 +179,25 @@ class voice(commands.Cog):
 
     @voice.command(aliases=["allow"])
     async def permit(self, ctx, member : discord.Member):
-        """允許某個人進入你的頻道"""
+        """允許某個人進入你的動態語音頻道"""
         conn = sqlite3.connect('datas/voice.db')
         c = conn.cursor()
         id = ctx.author.id
         c.execute("SELECT voiceID FROM voiceChannel WHERE userID = ?", (id,))
         voice=c.fetchone()
         if voice is None:
-            await ctx.channel.send(f"{ctx.author.mention} 你沒有自己的頻道")
+            await ctx.channel.send(f"{ctx.author.mention} 你沒有自己的動態語音頻道")
         else:
             channelID = voice[0]
             channel = self.bot.get_channel(channelID)
             await channel.set_permissions(member, connect=True)
-            await ctx.channel.send(f'允許 {member.name} 進入 {ctx.author.mention} 的頻道 ✅')
+            await ctx.channel.send(f'允許 {member.name} 進入 {ctx.author.mention} 的動態語音頻道 ✅')
         conn.commit()
         conn.close()
 
     @voice.command(aliases=["deny"])
     async def reject(self, ctx, member : discord.Member):
-        """拒絕某個人進入你的頻道"""
+        """拒絕某個人進入你的動態語音頻道"""
         conn = sqlite3.connect('datas/voice.db')
         c = conn.cursor()
         id = ctx.author.id
@@ -205,7 +205,7 @@ class voice(commands.Cog):
         c.execute("SELECT voiceID FROM voiceChannel WHERE userID = ?", (id,))
         voice=c.fetchone()
         if voice is None:
-            await ctx.channel.send(f"{ctx.author.mention} 你沒有自己的頻道")
+            await ctx.channel.send(f"{ctx.author.mention} 你沒有自己的動態語音頻道")
         else:
             channelID = voice[0]
             channel = self.bot.get_channel(channelID)
@@ -216,7 +216,7 @@ class voice(commands.Cog):
                     channel2 = self.bot.get_channel(voice[0])
                     await member.move_to(channel2)
             await channel.set_permissions(member, connect=False,read_messages=True)
-            await ctx.channel.send(f'拒絕 {member.name} 進入 {ctx.author.mention} 的頻道 ❌')
+            await ctx.channel.send(f'拒絕 {member.name} 進入 {ctx.author.mention} 的頻動態語音頻道 ❌')
         conn.commit()
         conn.close()
 
@@ -224,19 +224,19 @@ class voice(commands.Cog):
 
     @voice.command()
     async def limit(self, ctx, limit):
-        """設定自己頻道的最大人數"""
+        """設定自己動態語音頻道的最大人數"""
         conn = sqlite3.connect('datas/voice.db')
         c = conn.cursor()
         id = ctx.author.id
         c.execute("SELECT voiceID FROM voiceChannel WHERE userID = ?", (id,))
         voice=c.fetchone()
         if voice is None:
-            await ctx.channel.send(f"{ctx.author.mention} 你沒有自己的頻道")
+            await ctx.channel.send(f"{ctx.author.mention} 你沒有自己的動態語音頻道")
         else:
             channelID = voice[0]
             channel = self.bot.get_channel(channelID)
             await channel.edit(user_limit = limit)
-            await ctx.channel.send(f'{ctx.author.mention} 你的頻道最大人數設為 '+ '{}!'.format(limit))
+            await ctx.channel.send(f'{ctx.author.mention} 你的動態語音頻道最大人數設為 '+ '{}!'.format(limit))
             c.execute("SELECT channelName FROM userSettings WHERE userID = ?", (id,))
             voice=c.fetchone()
             if voice is None:
@@ -249,19 +249,19 @@ class voice(commands.Cog):
 
     @voice.command()
     async def name(self, ctx,*, name):
-        """更改頻道名稱"""
+        """更改你的動態語音頻道名稱"""
         conn = sqlite3.connect('datas/voice.db')
         c = conn.cursor()
         id = ctx.author.id
         c.execute("SELECT voiceID FROM voiceChannel WHERE userID = ?", (id,))
         voice=c.fetchone()
         if voice is None:
-            await ctx.channel.send(f"{ctx.author.mention} 你沒有自己的頻道")
+            await ctx.channel.send(f"{ctx.author.mention} 你沒有自己的動態語音頻道")
         else:
             channelID = voice[0]
             channel = self.bot.get_channel(channelID)
             await channel.edit(name = name)
-            await ctx.channel.send(f'{ctx.author.mention} 你的頻道更名為 '+ '{}!'.format(name))
+            await ctx.channel.send(f'{ctx.author.mention} 你的動態語音頻道更名為 '+ '{}!'.format(name))
             c.execute("SELECT channelName FROM userSettings WHERE userID = ?", (id,))
             voice=c.fetchone()
             if voice is None:
@@ -273,27 +273,27 @@ class voice(commands.Cog):
 
     @voice.command()
     async def claim(self, ctx):
-        """轉讓語音頻道"""
+        """轉讓你的動態語音頻道"""
         x = False
         conn = sqlite3.connect('datas/voice.db')
         c = conn.cursor()
         channel = ctx.author.voice.channel
         if channel == None:
-            await ctx.channel.send(f"{ctx.author.mention} 你沒有在語音頻道")
+            await ctx.channel.send(f"{ctx.author.mention} 你沒有在你的動態語音頻道")
         else:
             id = ctx.author.id
             c.execute("SELECT userID FROM voiceChannel WHERE voiceID = ?", (channel.id,))
             voice=c.fetchone()
             if voice is None:
-                await ctx.channel.send(f"{ctx.author.mention} 你沒有自己的頻道!")
+                await ctx.channel.send(f"{ctx.author.mention} 你沒有自己的動態語音頻道")
             else:
                 for data in channel.members:
                     if data.id == voice[0]:
                         owner = ctx.guild.get_member(voice [0])
-                        await ctx.channel.send(f"{ctx.author.mention} 這個頻道已經是 {owner.mention}的!")
+                        await ctx.channel.send(f"{ctx.author.mention} 這個動態語音頻道已經是 {owner.mention}的!")
                         x = True
                 if x == False:
-                    await ctx.channel.send(f"{ctx.author.mention} 你現在是這個頻道的主人了!")
+                    await ctx.channel.send(f"{ctx.author.mention} 你現在是這個動態語音頻道的主人了!")
                     c.execute("UPDATE voiceChannel SET userID = ? WHERE voiceID = ?", (id, channel.id))
             conn.commit()
             conn.close()

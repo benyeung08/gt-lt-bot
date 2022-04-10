@@ -110,5 +110,17 @@ class Slash_main(Cog):
         embed.add_field(name="RAM", value=f"{psutil.virtual_memory().percent} %")
         await ctx.send(embed=embed)
 
+    @cog_ext.cog_slash(name="invite",description="邀請這個機器人")
+    async def link(self,ctx):
+      embed=discord.Embed(title=" ", color=0xffffff)
+      embed.set_author(name="點我邀請機器人", url="https://discord.com/oauth2/authorize?client_id=881788746222157884&permissions=8&scope=bot",
+
+      icon_url = "https://cdn.discordapp.com/avatars/881788746222157884/c509fe9813837da63278d08cdd39ddbb.webp?size=1024")
+      await ctx.send(embed=embed)
+
+    @cog_ext.cog_slash(name="say",description="照著說某段話")
+    async def say(self, ctx, *, msg):
+        await ctx.send(msg)
+
 def setup(bot: Bot):
     bot.add_cog(Slash_main(bot))
